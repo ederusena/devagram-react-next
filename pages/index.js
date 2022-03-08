@@ -7,23 +7,23 @@ import UploadImagem from '../components/uploadImagem'
 
 export default function Home() {
   const [imagem, setImagem] = useState(null)
-  const referenciaInput = useRef(null)
+  const referenciaInputFather = useRef(null)
 
   console.log("imagem Page index", imagem)
 
   return (
     <>
       <h1>Ola mundo!</h1>
-      <div style={{ width: 200 }}>
-        <button onClick={() => referenciaInput?.current?.click()}>Upload Imagem</button>
+      <button onClick={() => referenciaInputFather?.current?.click()}>Upload Imagem</button>
 
-        <UploadImagem
-          setImagemProp={setImagem}
-          imagemPreviewProp={imagem?.preview}
-          aoSetarReferencia={(ref) => referenciaInput.current = ref}
-        />
-         
-        <Avatar />
+      <UploadImagem
+        setImagem={setImagem}
+        imagemPreview={imagem?.preview}
+        aoSetarReferencia={(ref) => (referenciaInputFather.current = ref)}
+      />
+      
+      <div style={{ width: 200 }}>
+        <Avatar src={imagem} />
         <Botao
           texto="Login"
           onClick={() => alert('Ahoi')}

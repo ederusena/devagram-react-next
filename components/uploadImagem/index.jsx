@@ -2,55 +2,56 @@ import { useRef, useEffect } from 'react';
 
 export default function UploadImagem({
   className = '',
-  setImagemProp,
-  imagemPreviewProp,
+  setImagem,
+  imagemPreview,
   imagemPreviewClassname = '',
   aoSetarReferencia,
 }) {
-  const refInputUploadFile = useRef(null);
+  const referenciaInput = useRef(null);
 
   useEffect(() => {
     if (!aoSetarReferencia) {
-      return
+      return;
     }
-    aoSetarReferencia(refInputUploadFile?.current);
-  }, [refInputUploadFile?.current]);
+    aoSetarReferencia(referenciaInput?.current);
+  }, [referenciaInput?.current, aoSetarReferencia]);
 
-  const modalUploadImage = () => {
-    refInputUploadFile?.current?.click();
+  const abrirSeletorDeArquivos = () => {
+    referenciaInput?.current?.click();
   };
 
-  const handleImagem = () => {
-    if (!refInputUploadFile?.current?.length) return;
+  const aoAlterarImagem = () => {
+    console.log('aoAlterarImagem');
+    if (!referenciaInput?.current?.files?.length) {
+      return;
+    }
 
-    const imagem = refInputUploadFile?.current?.files[0];
-    console.log('imagem Upload content', imagem);
-
+    const arquivo = referenciaInput?.current?.files[0];
     const fileReader = new FileReader();
-    fileReader.readAsDataURL(imagem);
-    fileReader.onloadend = () => {
-      console.log('fileReader.result', fileReader.result);
 
-      setImagemProp({
+    fileReader.readAsDataURL(arquivo);
+    fileReader.onloadend = () => {
+      setImagem({
         preview: fileReader.result,
-        imagem,
+        arquivo,
       });
     };
   };
 
   return (
-    <div className={`upload__imagem-container ${className}`} onClick={modalUploadImage}>
-      {imagemPreviewProp && (
+    <div className={`upload__imagem-container ${className}`} onClick={abrirSeletorDeArquivos}>
+      {imagemPreview && (
         <div className="imagem__preview-container">
-          <img src={imagemPreviewProp} alt="Imagem" className={imagemPreviewClassname} />
+          <img src={imagemPreview} alt="ImagemPreview" className={imagemPreviewClassname} />
         </div>
       )}
-      < input
-        type='file'
+
+      <input
+        type="file"
         accept="image/* "
         className="oculto"
-        ref={refInputUploadFile}
-        onChange={handleImagem}
+        ref={referenciaInput}
+        onChange={aoAlterarImagem}
       />
     </div>
   );
