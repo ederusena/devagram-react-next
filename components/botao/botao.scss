@@ -1,0 +1,34 @@
+ @mixin botaoPrimario {
+    background-color: $corPrimaria;
+    color: $branco;
+ }
+
+  @mixin botaoSecundario {
+    background-color: $branco;
+    color: $corPrimaria;
+    border: 1px $corPrimaria solid; 
+ }
+
+ .btn {
+   width: 100%;
+   border: none;
+   border-radius: 5px;
+
+   &.primaria {
+     @include botaoPrimario;
+      &:hover {
+        @include botaoSecundario;
+      }
+   }
+
+   &.secundaria {
+      @include botaoSecundario;
+      &:hover {
+        @include botaoPrimario;
+      }
+   }
+
+   &:disabled {
+     opacity: 0.5;
+   }
+ }
